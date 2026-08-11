@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Mon Carnet Français — Aprende francés</title>
+<meta name="description" content="Curso interactivo de francés nivel A1, con lecciones, ejercicios y recompensas.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🥐</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Nunito:wght@400;600;700;800&family=Caveat:wght@600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div id="app">
+
+  <!-- ===== HEADER ===== -->
+  <header class="topbar">
+    <div class="topbar-brand">
+      <span class="brand-emoji">🥐</span>
+      <div class="brand-text">
+        <h1>Mon Carnet Français</h1>
+        <p>Tu viaje al francés — Nivel A1</p>
+      </div>
+    </div>
+    <div class="topbar-stats">
+      <div class="stat-pill xp-pill" title="Puntos de viaje">
+        <span class="stat-icon">✈️</span>
+        <span id="stat-xp">0</span>
+      </div>
+      <div class="stat-pill streak-pill" title="Racha de días">
+        <span class="stat-icon">🔥</span>
+        <span id="stat-streak">0</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===== VISTA: RUTA DE LECCIONES ===== -->
+  <main id="view-map" class="view">
+    <div class="level-card">
+      <div class="level-card-text">
+        <span class="level-label" id="level-label">Débutant</span>
+        <h2 id="level-name">Nivel de viajero</h2>
+        <div class="level-progressbar">
+          <div id="level-progress-fill" class="level-progressbar-fill"></div>
+        </div>
+        <p id="level-progress-text" class="level-progress-text">0 / 16 lecciones completadas</p>
+      </div>
+    </div>
+
+    <div class="route" id="route-container">
+      <!-- generado por JS -->
+    </div>
+  </main>
+
+  <!-- ===== VISTA: LECCIÓN ===== -->
+  <main id="view-lesson" class="view hidden">
+    <button class="back-btn" id="lesson-back-btn">← Volver a la ruta</button>
+
+    <section id="lesson-intro" class="lesson-block">
+      <div class="lesson-hero">
+        <span class="lesson-hero-icon" id="lesson-icon">🥐</span>
+        <div>
+          <h2 id="lesson-title">Título</h2>
+          <p id="lesson-subtitle">Subtítulo</p>
+        </div>
+      </div>
+
+      <h3 class="section-heading">📖 Vocabulario</h3>
+      <div class="vocab-grid" id="vocab-grid"></div>
+
+      <h3 class="section-heading" id="grammar-title">✏️ Gramática</h3>
+      <p class="grammar-text" id="grammar-text"></p>
+      <div class="examples-box" id="examples-box"></div>
+
+      <button class="btn-primary btn-start-exercises" id="start-exercises-btn">Empezar ejercicios 🚀</button>
+    </section>
+
+    <!-- EJERCICIOS -->
+    <section id="exercise-block" class="lesson-block hidden">
+      <div class="exercise-progress">
+        <div class="exercise-progress-track">
+          <div id="exercise-progress-fill" class="exercise-progress-fill"></div>
+        </div>
+        <span id="exercise-progress-label">Ejercicio 1 de 3</span>
+      </div>
+
+      <div id="exercise-card" class="exercise-card"></div>
+
+      <div id="exercise-feedback" class="exercise-feedback hidden"></div>
+      <button class="btn-primary hidden" id="exercise-next-btn">Continuar →</button>
+    </section>
+
+    <!-- RESULTADO -->
+    <section id="lesson-result" class="lesson-block hidden">
+      <div class="result-card">
+        <span class="result-emoji" id="result-emoji">🎉</span>
+        <h2 id="result-title">¡Lección completada!</h2>
+        <p id="result-score">3 / 3 correctas</p>
+        <div class="result-xp" id="result-xp">+50 ✈️ puntos de viaje</div>
+        <div id="result-badges" class="result-badges"></div>
+        <button class="btn-primary" id="result-continue-btn">Continuar la ruta →</button>
+      </div>
+    </section>
+  </main>
+
+  <!-- ===== VISTA: INSIGNIAS ===== -->
+  <main id="view-badges" class="view hidden">
+    <h2 class="page-title">🎖️ Tampons de passeport</h2>
+    <p class="page-subtitle">Colecciona todos los sellos de tu pasaporte de viajero</p>
+    <div class="badges-grid" id="badges-grid"></div>
+  </main>
+
+  <!-- ===== VISTA: PERFIL ===== -->
+  <main id="view-profile" class="view hidden">
+    <h2 class="page-title">🧳 Mi progreso</h2>
+    <div class="profile-card">
+      <div class="profile-row"><span>Nivel actual</span><strong id="profile-level">Débutant</strong></div>
+      <div class="profile-row"><span>Puntos de viaje</span><strong id="profile-xp">0 ✈️</strong></div>
+      <div class="profile-row"><span>Racha actual</span><strong id="profile-streak">0 🔥 días</strong></div>
+      <div class="profile-row"><span>Lecciones completadas</span><strong id="profile-lessons">0 / 16</strong></div>
+      <div class="profile-row"><span>Insignias obtenidas</span><strong id="profile-badges">0 / 7</strong></div>
+    </div>
+    <button class="btn-secondary" id="reset-progress-btn">Reiniciar mi progreso</button>
+  </main>
+
+  <!-- ===== NAV INFERIOR (móvil) ===== -->
+  <nav class="bottom-nav">
+    <button class="nav-btn active" data-view="map">
+      <span class="nav-icon">🗺️</span><span>Ruta</span>
+    </button>
+    <button class="nav-btn" data-view="badges">
+      <span class="nav-icon">🎖️</span><span>Insignias</span>
+    </button>
+    <button class="nav-btn" data-view="profile">
+      <span class="nav-icon">🧳</span><span>Progreso</span>
+    </button>
+  </nav>
+
+  <!-- ===== MODAL: INSIGNIA DESBLOQUEADA ===== -->
+  <div id="badge-modal" class="modal hidden">
+    <div class="modal-card">
+      <span class="modal-badge-icon" id="modal-badge-icon">🏅</span>
+      <h3>¡Nueva insignia!</h3>
+      <p id="modal-badge-title">Título</p>
+      <button class="btn-primary" id="modal-close-btn">¡Genial!</button>
+    </div>
+  </div>
+
+</div>
+
+<script src="js/data.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
